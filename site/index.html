@@ -1,0 +1,32 @@
+<html>
+
+<head>
+    <title>Chart Server!</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script>
+        function addChart(id, chartInfo) {
+            var canv = document.createElement("canvas");
+            canv.setAttribute("id", id);
+            document.getElementById("charts").appendChild(canv);
+            var ctx = document.getElementById(id).getContext('2d');
+            new Chart(ctx, chartInfo);
+        }
+
+        async function drawCharts() {
+            const resp = await fetch("http://localhost:7500");
+            const chartMap = await resp.json();
+            for (let chartName of Object.keys(chartMap)) {
+                addChart(chartName, chartMap[chartName]);
+            }
+        
+        }
+    </script>
+</head>
+
+<body>
+    <div id="charts"></div>
+    <script>
+        //setInterval(drawCharts, 500);
+        drawCharts();
+    </script>
+</body>
