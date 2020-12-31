@@ -4,12 +4,12 @@ const axios = require('axios');
 
 class WikiEntry {
     article: string;
-    numberOfViews: number
+    views: number
     timestamp: Date
 
-    constructor(article, numberOfViews, timestamp) {
+    constructor(article, numberOfViews, timestamp, project?:string, granularity?:string, access?:string, agent?:string) {
         this.article = article;
-        this.numberOfViews = numberOfViews;
+        this.views = numberOfViews;
         this.timestamp = timestamp;
     }
 }
@@ -71,8 +71,6 @@ class Wiki {
     startDate: Date;
     endDate: Date;
 
-    entries: WikiEntry[] = [];
-
     constructor() { }
 
     filterArticles(...articles: string[]) {
@@ -104,7 +102,8 @@ class Wiki {
                 this.endDate = new Date()
             }
             if (this.startDate == null) {
-                this.startDate = new Date("2020"); // TODO: compute based on end date
+                this.startDate = new Date(this.endDate);
+                this.startDate.setFullYear(this.endDate.getFullYear() - 1);
             }
             const requests = Array.from(this.articles).map(a => util.format(reqPat, a, translateDateToString(this.startDate), translateDateToString(this.endDate)));
             return requests.map(r => getReqPromise(r)).map(prom => translateReqPromise(prom));
@@ -118,10 +117,11 @@ class Wiki {
 
 }
 
-exports.Wiki = Wiki;
-exports.mkLineChartConfig = function () {
+const mkLineChartConfig = function () {
     const chartColors = {
-        red: "rgb(255, 99, 132)", orange: "rgb(255, 159, 64)", yellow: "rgb(255, 205, 86)", green: "rgb(75, 192, 192)", blue: "rgb(54, 162, 235)",
+        red: "rgb(255, 99, 132)", 
+        orange: "rgb(255, 159, 64)", yellow: "rgb(255, 205, 86)", 
+        green: "rgb(75, 192, 192)", blue: "rgb(54, 162, 235)",
         grey: "rgb(201, 203, 207)",
         purple: "rgb(153, 102, 255)",
     };
@@ -142,7 +142,7 @@ exports.mkLineChartConfig = function () {
             responsive: true,
             title: {
                 display: true,
-                text: 'Chart.js Line Chart - Logarithmic'
+                text: 'Line Chart'
             },
             scales: {
                 xAxes: [{
@@ -150,10 +150,13 @@ exports.mkLineChartConfig = function () {
                 }],
                 yAxes: [{
                     display: true,
-                    type: 'logarithmic',
+                    //type: 'logarithmic',
                 }]
             }
         }
     };
     return config;
 }
+
+export {Wiki, mkLineChartConfig};
+

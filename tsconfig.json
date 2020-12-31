@@ -4,6 +4,7 @@
       "lib": ["es2019"]
     },
     "files": [
-      "dot.ts"
+      "wiki.ts",
+      "examples/climate_change_global_warming_charts.ts"
     ]
     }
