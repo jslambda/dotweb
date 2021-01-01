@@ -117,46 +117,6 @@ class Wiki {
 
 }
 
-const mkLineChartConfig = function () {
-    const chartColors = {
-        red: "rgb(255, 99, 132)", 
-        orange: "rgb(255, 159, 64)", yellow: "rgb(255, 205, 86)", 
-        green: "rgb(75, 192, 192)", blue: "rgb(54, 162, 235)",
-        grey: "rgb(201, 203, 207)",
-        purple: "rgb(153, 102, 255)",
-    };
-    const config = {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [{
-                label: 'My First dataset',
-                backgroundColor: chartColors.red,
-                borderColor: chartColors.red,
-                fill: false,
-                data: [
-                ],
-            }]
-        },
-        options: {
-            responsive: true,
-            title: {
-                display: true,
-                text: 'Line Chart'
-            },
-            scales: {
-                xAxes: [{
-                    display: true,
-                }],
-                yAxes: [{
-                    display: true,
-                    //type: 'logarithmic',
-                }]
-            }
-        }
-    };
-    return config;
-}
 
-export {Wiki, mkLineChartConfig};
+export {Wiki};
 
